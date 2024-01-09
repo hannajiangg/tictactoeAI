@@ -50,20 +50,20 @@
     function initializeBoard() {
       return [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']];
     }
-
+  
     function printBoard(board) {
       for (const row of board) {
         console.log(row.join(' '));
       }
       console.log();
     }
-
+  
     function getPlayerMove(board) {
       while (true) {
         try {
           const input = prompt("Enter your move (row and column separated by space):");
           const [row, col] = input.split(' ').map(Number);
-
+  
           if (board[row][col] === ' ') {
             return { row, col };
           } else {
@@ -74,7 +74,7 @@
         }
       }
     }
-
+  
     function getAiMove(board) {
       const availableMoves = [];
       for (let i = 0; i < 3; i++) {
@@ -86,34 +86,34 @@
       }
       return availableMoves[Math.floor(Math.random() * availableMoves.length)];
     }
-
+  
     function makeMove(board, player, row, col) {
       board[row][col] = player;
     }
-
+  
     function checkWinner(board, player) {
       for (let i = 0; i < 3; i++) {
         if (board[i].every((cell) => cell === player) || board.every((row) => row[i] === player)) {
           return true;
         }
       }
-
+  
       if (board.every((row, i) => row[i] === player) || board.every((row, i) => row[2 - i] === player)) {
         return true;
       }
-
+  
       return false;
     }
-
+  
     function isBoardFull(board) {
       return board.every((row) => row.every((cell) => cell !== ' '));
     }
-
+  
     function playTicTacToe() {
       const boardElement = document.getElementById('board');
       const board = initializeBoard();
-      let currentPlayer = 'O';  // 'O' goes first
-
+      let currentPlayer = 'X';  // 'X' goes first
+  
       for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
           const cell = document.createElement('div');
@@ -122,12 +122,12 @@
           boardElement.appendChild(cell);
         }
       }
-
+  
       function cellClick(row, col) {
         if (board[row][col] === ' ') {
           makeMove(board, currentPlayer, row, col);
           renderBoard();
-          
+  
           if (checkWinner(board, currentPlayer)) {
             alert(`${currentPlayer} wins!`);
             resetGame();
@@ -135,25 +135,23 @@
             alert("It's a tie!");
             resetGame();
           } else {
-            currentPlayer = (currentPlayer === 'X') ? 'O' : 'X';
-            if (currentPlayer === 'O') {
-              const { row, col } = getAiMove(board);
-              makeMove(board, currentPlayer, row, col);
-              renderBoard();
-              
-              if (checkWinner(board, currentPlayer)) {
-                alert(`${currentPlayer} wins!`);
-                resetGame();
-              } else if (isBoardFull(board)) {
-                alert("It's a tie!");
-                resetGame();
-              }
-              currentPlayer = 'X';
+            currentPlayer = 'O';
+            const { row, col } = getAiMove(board);
+            makeMove(board, currentPlayer, row, col);
+            renderBoard();
+  
+            if (checkWinner(board, currentPlayer)) {
+              alert(`${currentPlayer} wins!`);
+              resetGame();
+            } else if (isBoardFull(board)) {
+              alert("It's a tie!");
+              resetGame();
             }
+            currentPlayer = 'X';
           }
         }
       }
-
+  
       function renderBoard() {
         for (let i = 0; i < 3; i++) {
           for (let j = 0; j < 3; j++) {
@@ -162,18 +160,19 @@
           }
         }
       }
-
+  
       function resetGame() {
         board.forEach(row => row.fill(' '));
         renderBoard();
-        currentPlayer = 'O';
+        currentPlayer = 'X';
       }
-
+  
       renderBoard();
     }
-
+  
     playTicTacToe();
   </script>
+  
 
     <footer>
         <p>&copy; Hanna Jiang</p>
