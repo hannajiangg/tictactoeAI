@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #board {
+      display: grid;
+      grid-template-columns: repeat(3, 80px);
+      grid-template-rows: repeat(3, 80px);
+      grid-gap: 5px;
+      margin-bottom: 20px;
+    }
+
+    .cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      background-color: #ddd;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .cell:hover {
+      background-color: #ccc;
+    }
+
+    h2 {
+      margin: 0;
+    }
+  </style>
+  <title>Tic Tac Toe</title>
+</head>
+<body>
+  <h2>Tic Tac Toe</h2>
+  <div id="board"></div>
+
+  <script>
+    function initializeBoard() {
+      return [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']];
+    }
+
+    function printBoard(board) {
+      for (const row of board) {
+        console.log(row.join(' '));
+      }
+      console.log();
+    }
+
+    function getPlayerMove(board) {
+      while (true) {
+        try {
+          const input = prompt("Enter your move (row and column separated by space):");
+          const [row, col] = input.split(' ').map(Number);
+
+          if (board[row][col] === ' ') {
+            return { row, col };
+          } else {
+            console.log("Invalid move. Try again.");
+          }
+        } catch (error) {
+          console.log("Invalid input. Please enter valid row and column values.");
+        }
+      }
+    }
+
+    function getAiMove(board) {
+      const availableMoves = [];
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          if (board[i][j] === ' ') {
+            availableMoves.push({ row: i, col: j });
+          }
+        }
+      }
+      return availableMoves[Math.floor(Math.random() * availableMoves.length)];
+    }
+
+    function makeMove(board, player, row, col) {
+      board[row][col] = player;
+    }
+
+    function checkWinner(board, player) {
+      for (let i = 0; i < 3; i++) {
+        if (board[i].every((cell) => cell === player) || board.every((row) => row[i] === player)) {
+          return true;
+        }
+      }
+
+      if (board.every((row, i) => row[i] === player) || board.every((row, i) => row[2 - i] === player)) {
+        return true;
+      }
+
+      return false;
+    }
+
+    function isBoardFull(board) {
+      return board.every((row) => row.every((cell) => cell !== ' '));
+    }
+
+    function playTicTacToe() {
+      const boardElement = document.getElementById('board');
+      const board = initializeBoard();
+      let currentPlayer = 'O';  // 'O' goes first
+
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          const cell = document.createElement('div');
+          cell.className = 'cell';
+          cell.addEventListener('click', () => cellClick(i, j));
+          boardElement.appendChild(cell);
+        }
+      }
+
+      function cellClick(row, col) {
+        if (board[row][col] === ' ') {
+          makeMove(board, currentPlayer, row, col);
+          renderBoard();
+          
+          if (checkWinner(board, currentPlayer)) {
+            alert(`${currentPlayer} wins!`);
+            resetGame();
+          } else if (isBoardFull(board)) {
+            alert("It's a tie!");
+            resetGame();
+          } else {
+            currentPlayer = (currentPlayer === 'X') ? 'O' : 'X';
+            if (currentPlayer === 'O') {
+              const { row, col } = getAiMove(board);
+              makeMove(board, currentPlayer, row, col);
+              renderBoard();
+              
+              if (checkWinner(board, currentPlayer)) {
+                alert(`${currentPlayer} wins!`);
+                resetGame();
+              } else if (isBoardFull(board)) {
+                alert("It's a tie!");
+                resetGame();
+              }
+              currentPlayer = 'X';
+            }
+          }
+        }
+      }
+
+      function renderBoard() {
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            const cell = boardElement.children[i * 3 + j];
+            cell.textContent = board[i][j];
+          }
+        }
+      }
+
+      function resetGame() {
+        board.forEach(row => row.fill(' '));
+        renderBoard();
+        currentPlayer = 'O';
+      }
+
+      renderBoard();
+    }
+
+    playTicTacToe();
+  </script>
+
+    <footer>
+        <p>&copy; Hanna Jiang</p>
+    </footer>
+</body>
+</html>
