@@ -1,4 +1,4 @@
-# Battleship AI
+# Tic Tac Toe AI
 
 Welcome to Tic Tac Toe AI - an AI-controlled Battleship experience!
 
