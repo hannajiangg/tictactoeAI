@@ -4,7 +4,7 @@ Welcome to Tic Tac Toe AI - an AI-controlled Battleship experience!
 
 ## Play
 
-**Link:** [Tic Tac Toe AI](https://hannajiangg.github.io/tictactoeAI/)
+**Link:** [Tic Tac Toe AI](https://hannajiangg.github.io/tictactoeAI)
 
 ## Gameplay
 
