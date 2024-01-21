@@ -1,6 +1,6 @@
 # Tic Tac Toe AI
 
-Welcome to Tic Tac Toe AI - an AI-controlled Battleship experience!
+Welcome to Tic Tac Toe AI - an AI-controlled TicTacToe experience!
 
 ## Play
 
