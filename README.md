@@ -12,7 +12,7 @@ Begin playing by clicking any of the open spaces on the 3 by 3 board.
 
 ## Current Highlights
 
-Main features of Battleship Ai:
+Main features of Tic Tac Toe Ai:
 
 - User friendly interface
 - Built-in logic that helps the AI opponent play randomly, yet strategically.
